@@ -16,6 +16,8 @@ async function login() {
         const result = await response.json()
         if (result.value === 1){
             alert("Login correcto")
+            modoJuego()
+            changeScreen()
         } else if (result.value === -1){
             alert(result.message)
         } else {
@@ -42,6 +44,8 @@ async function register() {
         const result = await response.json()
         if (result.value === 1){
             alert("Registro correcto")
+            modoJuego()
+            changeScreen()
         } else if (result.value === -1){
             alert(result.message)
         } else {
@@ -49,5 +53,17 @@ async function register() {
         }
     } else {
         alert("Completar la información")
+    }
+}
+
+var num = 1;
+
+function modoJuego() {
+    var element = document.body;
+    element.classList.toggle("game-mode");
+    if (num == 1){
+        num = 2
+    } else {
+        num = 1
     }
 }

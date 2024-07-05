@@ -14,8 +14,8 @@
 </head>
 <body>
     <h1>WORDLE</h1>
-    <article>
-        <div id="login">
+    <article id="login">
+        <div id="divlogin">
             <h2>Login</h2>
             <input type="text" placeholder="Username" id="loginusername">
             <br>
@@ -26,6 +26,18 @@
             <button onclick="register()" id="botonRegistrarse">Registrarse</button>
         </div>
     </article>
+    <section id="gameSec" style="display: none;">
+        <div id="game">
+            <div class="grid">
+                <div class="box"></div>
+                <div class="box"></div>
+                <div class="box"></div>
+                <div class="box"></div>
+                <div class="box"></div>
+            </div>
+        </div>
+    </section>
+    <script src="dom.js"></script>
     <script src="functions.js"></script>
 </body>
 </html>
