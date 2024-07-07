@@ -16,7 +16,6 @@ async function login() {
         const result = await response.json()
         if (result.value === 1){
             alert("Login correcto")
-            modoJuego()
             changeScreen()
         } else if (result.value === -1){
             alert(result.message)
@@ -44,7 +43,6 @@ async function register() {
         const result = await response.json()
         if (result.value === 1){
             alert("Registro correcto")
-            modoJuego()
             changeScreen()
         } else if (result.value === -1){
             alert(result.message)
@@ -56,14 +54,29 @@ async function register() {
     }
 }
 
-var num = 1;
-
-function modoJuego() {
-    var element = document.body;
-    element.classList.toggle("game-mode");
-    if (num == 1){
-        num = 2
-    } else {
-        num = 1
-    }
+function dibujarCaja(container, fila, columna, letra = ""){
+    const caja = document.createElement("div");
+    caja.className = "box";
+    caja.id = `box${fila}${columna}`;
+    caja.textContent = letra;
+    container.appendChild(caja);
+    return caja
 }
+
+function dibujarGrid(container){
+    const grid = document.createElement("div");
+    grid.className = 'grid'
+    for (let i = 0; i < 6; i++){
+        for (let j = 0; j < 5; j++){
+            dibujarCaja(grid, i, j)
+        }
+    }
+    container.appendChild(grid)
+}
+
+function inicio(){
+    const game = document.getElementById('game');
+    dibujarGrid(game)
+}
+
+inicio()
