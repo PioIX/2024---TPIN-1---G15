@@ -31,31 +31,6 @@ app.get('/obtenerPilotos', async function(req,res){
 	res.send(respuesta);
 })
 
-app.get('/obtenerGPS', async function(req,res){
-    console.log(req.query);
-	const respuesta = await MySql.realizarQuery('SELECT * FROM GP;');
-	console.log({respuesta});
-	//Le devuelve al cliente la respuesta de la base de datos
-	res.send(respuesta);
-})
-
-app.get('/obtenerPilotosXGPS', async function(req,res){
-    console.log(req.query);
-	const respuesta = await MySql.realizarQuery('SELECT * FROM PilotosXGP;');
-	console.log({respuesta});
-	//Le devuelve al cliente la respuesta de la base de datos
-	res.send(respuesta);
-})
-
-app.get('/obtenerPilotosXGP', async function(req,res) {
-	// Obtén los valores de los parámetros desde la URL
-	const valor1 = req.query.piloto_ID;
-	const valor2 = req.query.gp_ID;
-	const result = await MySql.realizarQuery(`SELECT * FROM PilotosXGP WHERE nombre = "${valor1}";`);
-	console.log(valor1);
-	res.send(result);
-});
-
 app.get('/obtenerGP', async function(req,res) {
 	// Obtén los valores de los parámetros desde la URL
 	const valor1 = req.query.nombre;
@@ -73,38 +48,19 @@ app.post('/obtenerUsuario', async function(req, res) {
 		res.send({message: "El usuario no existe", value: -1})
 	} else if (name == value[0].username && password == value[0].password){
 		res.send({message: 'Usuario existe', value: 1});
-	}
+	} 
 });
 
 app.post('/registrarUsuario', async function(req, res) {
 	const name = req.body.user;
 	const password = req.body.password;
-	let value = await MySql.realizarQuery(`SELECT * FROM Users WHERE username = "${name}" AND password = "${password}"`);
+	let value = await MySql.realizarQuery(`SELECT * FROM Users WHERE username = "${name}"`);
 	if (value === undefined || value.length === 0) {
 		const result = MySql.realizarQuery(`INSERT INTO Users (username, password)
 		VALUES ("${name}", "${password}")`);
 		res.send({message: 'Usuario registrado',value: 1});
-	} else if (id == value[0].id){
+	} else if (name == value[0].username){
 		res.send({message: 'Usuario existe', value: -1});
-	};
-});
-
-app.post('/insertarPiloto', async function(req, res) {
-	const name = req.body.nombre;
-	const lastName = req.body.apellido;
-	const team = req.body.escuderia;
-	const number = req.body.numero;
-	const nat = req.body.nacionalidad;
-	const birth = req.body.nacimiento;
-	const points = req.body.puntos;
-	const id = req.body.piloto_ID;
-	let value = await MySql.realizarQuery(`SELECT piloto_ID FROM Pilotos WHERE piloto_ID = ${id}`);
-	if (value === undefined || value.length === 0) {
-		const result = MySql.realizarQuery(`INSERT INTO Pilotos (nombre, apellido, escuderia, numero, nacionalidad, nacimiento, puntaje_campeonato, piloto_ID)
-		VALUES ("${name}", "${lastName}", "${team}", ${number}, "${nat}", "${birth}", ${points}, ${id})`);
-		res.send({message: 'Piloto agregado a la tabla'});
-	} else if (id == value[0].piloto_ID){
-		res.send({message: 'El piloto ya existe en la base de datos'});
 	};
 });
 

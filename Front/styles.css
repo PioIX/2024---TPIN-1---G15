@@ -67,6 +67,12 @@ input {
     width: 200px;
 }
 
+#admin {
+    display: flexbox;
+    text-align: center;
+    margin: 7% 0 0 0;
+}
+
 #game {
     display: grid;
     place-items: center;

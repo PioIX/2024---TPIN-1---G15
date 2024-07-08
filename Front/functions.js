@@ -16,7 +16,11 @@ async function login() {
         const result = await response.json()
         if (result.value === 1){
             alert("Login correcto")
-            changeScreen()
+            if (data.user === "admin" && data.password === "admin"){
+                changeScreenAdmin()
+            } else {
+                changeScreen()
+            }
         } else if (result.value === -1){
             alert(result.message)
         } else {
