@@ -54,6 +54,23 @@ async function register() {
     }
 }
 
+const estado =  {
+    grid: Array(6)
+        .fill()
+        .map(() => Array(5).fill('')),
+    currentRow: 0,
+    currentCol: 0,
+};
+
+function actualizarGrid(){
+    for (let i = 0; i < estado.grid.length; i++){
+        for (let j = 0; j < estado.grid[i].length; j++){
+            const box = document.getElementById(`box${i}${j}`);
+            box.textContent = estado.grid[i][j];
+        }
+    }
+}
+
 function dibujarCaja(container, fila, columna, letra = ""){
     const caja = document.createElement("div");
     caja.className = "box";
@@ -74,9 +91,39 @@ function dibujarGrid(container){
     container.appendChild(grid)
 }
 
+function registerKeybordEvents(){
+    document.body.onkeydown = (e) => {
+        const key = e.key;
+        if (key === 'Enter'){
+            if (estado.currentCol === 5){
+                const word = getCurrentWord();
+                if (isWordValid(word)){
+                    revealWord(word)
+                    estado.currentRow++;
+                    estado.currentCol = 0
+                } else {
+                    alert('La palabra no es valida')
+                }
+            }
+        }
+        if (key === 'Backspace'){
+            removeLetter()
+        }
+        if (isLetter(key)){
+            addLetter(key)
+        }
+        actualizarGrid();
+    }
+}
+
+function getCurrentWord(){
+    return estado.grid[estado.currentRow].reduce((prev, curr) => prev + curr)
+}
+
 function inicio(){
     const game = document.getElementById('game');
     dibujarGrid(game)
+    registerKeybordEvents();
 }
 
 inicio()
