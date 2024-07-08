@@ -4,6 +4,7 @@ function changeScreen(){
     if (login.style.display !== "none"){
         login.style.display = "none"
         gameSec.style.display = ""
+        
     } else {
         login.style.display = ""
         gameSec.style.display = "none"

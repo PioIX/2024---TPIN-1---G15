@@ -5,7 +5,7 @@
 }
 
 body{
-    background: #242425;
+    background: #D1C0A8; /*#242425*/ /*#6e95ff */
     display: flexbox;
 }
 
@@ -29,7 +29,7 @@ h1{
     font-family: "Roboto", sans-serif;
     font-weight: bold;
     letter-spacing: 5px;
-    margin: 25px auto 0 auto;
+    margin: 0 auto 0 auto;
     color: rgb(255, 255, 255);
 }
 
@@ -38,11 +38,19 @@ h2{
     font-size: 30px;
 }
 
+#hola {
+    border-radius: 50px;
+    background-color: #6E0E0A; /* rgb(75, 75, 231)*/
+    max-width: 300px;
+    border: solid black 3px;
+    margin: 25px auto 0 auto;
+}
+
 #divlogin{
     text-align: center;
     border-radius: 10px;
     border: solid black 3px;
-    background-color: rgb(87, 87, 226);
+    background-color: #721916; /*rgb(87, 87, 226)   rgb(75, 75, 231)*/
     display: flexbox;
     width: 375px;
     height: 270px;
@@ -70,7 +78,9 @@ input {
 #admin {
     display: flexbox;
     text-align: center;
-    margin: 7% 0 0 0;
+    margin: 7% auto 0 auto;
+    background: rgb(75, 75, 231);
+    max-width: 600px;
 }
 
 #game {
@@ -96,7 +106,8 @@ input {
 .box {
     width: 60px;
     height: 60px;
-    border: 2px solid var(--empty);
+    border: 2px solid #721916; /*rgb(75, 75, 231)*/
+    border-radius: 4px;
     margin: 4px;
     color: white;
     text-transform: uppercase;
@@ -108,14 +119,17 @@ input {
 
 .box.empty {
     background: var(--empty);
+    border: 2px solid black;
 }
 
 .box.wrong {
     background: var(--wrong);
+    border: 2px solid black;
 }
 
 .box.right {
     background: var(--right);
+    border: 2px solid black;
 }
 
 
