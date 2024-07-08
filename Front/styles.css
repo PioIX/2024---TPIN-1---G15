@@ -38,6 +38,23 @@ h2{
     font-size: 30px;
 }
 
+#table{
+    border: 2px solid black;
+    width: 50%;
+    border-collapse: collapse;
+    background: white;
+    margin: 20px auto 0 auto;
+}
+
+#table td {
+    border: 2px solid black;
+    text-align: center;
+}
+
+#table th {
+    border: 2px solid black;
+}
+
 #hola {
     border-radius: 50px;
     background-color: #6E0E0A; /* rgb(75, 75, 231)*/
@@ -79,8 +96,15 @@ input {
     display: flexbox;
     text-align: center;
     margin: 7% auto 0 auto;
-    background: rgb(75, 75, 231);
+    background: #721916;
     max-width: 600px;
+    padding: 1px 0 26px 0;
+    border-radius: 15px;
+    border: 2px solid black;
+}
+
+#bvt {
+    width: 150px;
 }
 
 #game {

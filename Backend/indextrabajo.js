@@ -31,12 +31,21 @@ app.get('/obtenerPilotos', async function(req,res){
 	res.send(respuesta);
 })
 
-app.get('/obtenerGP', async function(req,res) {
-	// Obtén los valores de los parámetros desde la URL
-	const valor1 = req.query.nombre;
-	const result = await MySql.realizarQuery(`SELECT * FROM GP WHERE nombre = "${valor1}";`);
-	console.log(valor1);
+app.post('/obtenerPalabras', async function(req, res) {
+	const result = await MySql.realizarQuery(`SELECT * FROM Words`);
 	res.send(result);
+});
+
+app.post('/agregarPalabra', async function(req, res) {
+	const word = req.body.word;
+	let value = await MySql.realizarQuery(`SELECT * FROM Users WHERE word = "${word}"`);
+	if (value === undefined || value.length === 0) {
+		const result = MySql.realizarQuery(`INSERT INTO Users (word)
+		VALUES ("${word}")`);
+		res.send({message: 'Palabra agregada',value: 1});
+	} else if (word == value[0].word){
+		res.send({message: 'La palabra ya existe', value: -1});
+	};
 });
 
 app.post('/obtenerUsuario', async function(req, res) {
@@ -45,9 +54,9 @@ app.post('/obtenerUsuario', async function(req, res) {
 	let value = await MySql.realizarQuery(`SELECT * FROM Users WHERE username = "${name}" AND password = "${password}"`);
 	console.log(value)
 	if (value === undefined || value.length === 0){
-		res.send({message: "El usuario no existe", value: -1})
+		res.send({message: "El usuario no existe o la contraseña es incorrecta", value: -1})
 	} else if (name == value[0].username && password == value[0].password){
-		res.send({message: 'Usuario existe', value: 1});
+		res.send({message: 'Usuario existente', value: 1});
 	} 
 });
 
@@ -60,7 +69,7 @@ app.post('/registrarUsuario', async function(req, res) {
 		VALUES ("${name}", "${password}")`);
 		res.send({message: 'Usuario registrado',value: 1});
 	} else if (name == value[0].username){
-		res.send({message: 'Usuario existe', value: -1});
+		res.send({message: 'Usuario existente', value: -1});
 	};
 });
 
