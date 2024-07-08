@@ -36,17 +36,35 @@ app.post('/obtenerPalabras', async function(req, res) {
 	res.send(result);
 });
 
-app.post('/agregarPalabra', async function(req, res) {
+app.put('/agregarPalabra', async function(req, res) {
 	const word = req.body.word;
-	let value = await MySql.realizarQuery(`SELECT * FROM Users WHERE word = "${word}"`);
+	let value = await MySql.realizarQuery(`SELECT * FROM Words WHERE word = "${word}"`);
 	if (value === undefined || value.length === 0) {
-		const result = MySql.realizarQuery(`INSERT INTO Users (word)
+		const result = MySql.realizarQuery(`INSERT INTO Words (word)
 		VALUES ("${word}")`);
 		res.send({message: 'Palabra agregada',value: 1});
 	} else if (word == value[0].word){
 		res.send({message: 'La palabra ya existe', value: -1});
 	};
 });
+
+app.delete('/borrarPalabra', async function(req, res){
+	const word = req.body.word;
+	const result = await MySql.realizarQuery(`DELETE FROM Words WHERE word = "${word}"`);
+	res.send({message:'Palabra borrada', value: 1});
+})
+
+app.put('/actualizarPalabra', async function(req, res){
+	const word = req.body.word;
+	const wordId = req.body.wordId;
+	const test = await MySql.realizarQuery(`SELECT * FROM Words WHERE word = "${word}" AND wordid = ${wordId}`);
+	if (test === undefined || test.length === 0){
+		const result = await MySql.realizarQuery(`UPDATE Words SET word = "${word}" WHERE wordid = ${wordId}`);
+		res.send({message:'Palabra actualizado', value: 1});
+	} else {
+		res.send({message: 'La palabra que intentas modificar está igual que en la Base de Datos por ende no se modificó',value: -1})
+	}
+})
 
 app.post('/obtenerUsuario', async function(req, res) {
 	const name = req.body.user;

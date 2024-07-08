@@ -27,34 +27,39 @@ async function llamadoAlBackend() {
 }
 
 async function agregarPalabra() {
-    if (document.getElementById("nuevaPalabra").value != ""){
-        const data = {
-            word : document.getElementById("nuevaPalabra").value,
+    let nuevaPalabra = document.getElementById("nuevaPalabra").value
+    if (nuevaPalabra != ""){
+        if (nuevaPalabra.length === 5){
+            const data = {
+                word : nuevaPalabra.toUpperCase()
+            }
+            const response = await fetch('http://localhost:3000/agregarPalabra',{
+                method:"PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                  },
+                body:JSON.stringify(data)
+            })
+            const result = await response.json()
+            alert(result.message)
+            llamadoAlBackend()
+        } else {
+            alert('La palabra debe tener solo 5 letras')
         }
-        const response = await fetch('http://localhost:3000/insertarPiloto',{
-            method:"POST",
-            headers: {
-                "Content-Type": "application/json",
-              },
-            body:JSON.stringify(data)
-        })
-        const result = await response.json()
-        alert(result.message)
-        llamadoAlBackend()
     } else {
         alert("Completar la información")
     }
     console.log(typeof document.getElementById("numero").value)
 }
 
-async function deletePiloto(){
-    if (document.getElementById("id").value != ""){
+async function deleteWords(){
+    let deleteWord = document.getElementById("eliminarPalabra").value
+    if (deleteWord != ""){
         const data = {
-            piloto_ID : document.getElementById("id").value,
+            word : deleteWord.toUpperCase(),
         }
-    
         //Envio un pedido POST con un JSON en el body
-        const response = await fetch('http://localhost:3000/borrarPiloto',{
+        const response = await fetch('http://localhost:3000/borrarPalabra',{
             method:"DELETE",
             headers: {
                 "Content-Type": "application/json",
@@ -62,8 +67,12 @@ async function deletePiloto(){
             body:JSON.stringify(data)
         })
         const result = await response.json()
-        alert(result.message)
-        llamadoAlBackend()
+        if(result.value === 1){
+            alert(result.message)
+            llamadoAlBackend()
+        } else {
+            alert('Ocurrio un error en el momento de borrar la palabra')
+        }
     } else {
         alert("Completar la información")
     }
@@ -90,4 +99,39 @@ async function updatePiloto(){
     } else {
         alert("Completar la información")
     }
+}
+
+async function actualizarPalabra() {
+    let updateWord = document.getElementById("palabraActulizada").value
+    let wordId = document.getElementById("idPalabra").value
+    if (updateWord != "" && wordId  !=  ""){
+        if (updateWord.length === 5){
+            const data = {
+                word : updateWord.toUpperCase(),
+                wordId : Number(wordId)
+            }
+            const response = await fetch('http://localhost:3000/actualizarPalabra',{
+                method:"PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                  },
+                body:JSON.stringify(data)
+            })
+            const result = await response.json()
+            if(result.value === 1){
+                alert(result.message)
+                llamadoAlBackend()
+            } else if(result.value === -1){
+                alert(result.message)
+                llamadoAlBackend()
+            } else {
+                alert('Hubo un error en el momento de actualizar la palabra')
+            }
+        } else {
+            alert('La palabra debe tener solo 5 letras')
+        }
+    } else {
+        alert("Completar la información")
+    }
+    console.log(typeof document.getElementById("numero").value)
 }

@@ -1,9 +1,11 @@
 async function login() {
-    if (document.getElementById("loginusername").value != "" && document.getElementById("loginpassword").value != ""){
+    let username = document.getElementById("loginusername").value
+    let password = document.getElementById("loginpassword").value
+    if (username != "" && password != ""){
         //Armo un objeto para mandarlo como formato JSON
         const data = {
-            user : document.getElementById("loginusername").value,
-            password : document.getElementById("loginpassword").value
+            user : username,
+            password : password
         }
         //Envio un pedido POST con un JSON en el body
         const response = await fetch('http://localhost:3000/obtenerUsuario',{
@@ -21,6 +23,8 @@ async function login() {
             } else {
                 changeScreen()
             }
+            document.getElementById("loginusername").value = ""
+            document.getElementById("loginpassword").value = ""
         } else if (result.value === -1){
             alert(result.message)
         } else {
@@ -32,10 +36,12 @@ async function login() {
 }
 
 async function register() {
-    if (document.getElementById("loginusername").value != "" && document.getElementById("loginpassword").value != ""){
+    let username = document.getElementById("loginusername").value
+    let password = document.getElementById("loginpassword").value
+    if (username != "" && password != ""){
         const data = {
-            user : document.getElementById("loginusername").value,
-            password : document.getElementById("loginpassword").value
+            user : username,
+            password : password
         }
         const response = await fetch('http://localhost:3000/registrarUsuario',{
             method:"POST",
@@ -48,6 +54,8 @@ async function register() {
         if (result.value === 1){
             alert("Registro correcto")
             changeScreen()
+            document.getElementById("loginusername").value = ""
+            document.getElementById("loginpassword").value = ""
         } else if (result.value === -1){
             alert(result.message)
         } else {

@@ -31,19 +31,20 @@
     <section id="gameSec" style="display: none;">
         <div id="game">
         </div>
+        <button onclick="changeScreen()">Log Out</button>
     </section>
     <section id="adminSec" style="display: none;">
         <div id="admin">
             <h2>Actualizar Palabra</h2>
             <input type="text" id="idPalabra" placeholder="Id Palabra">
             <input type="text" id="palabraActulizada" placeholder="Actualizar Palabra">
-            <button onclick="llamadoAlBackend()">Modificar</button>
+            <button onclick="actualizarPalabra()">Modificar</button>
             <h2>Agregar Palabras</h2>
             <input type="text" id="nuevaPalabra" placeholder="Nueva Palabra">
-            <button onclick="llamadoAlBackend()">Agregar</button>
+            <button onclick="agregarPalabra()">Agregar</button>
             <h2>Eliminar Palabras</h2>
             <input type="text" id="eliminarPalabra" placeholder="Eliminar Palabra">
-            <button onclick="llamadoAlBackend()">Eliminar</button>
+            <button onclick="deleteWords()">Eliminar</button>
             <br>
             <br>
             <button onclick="llamadoAlBackend()" id="bvt">Ver tabla de palabras</button>
@@ -51,6 +52,7 @@
         <table id="table">
       
         </table>
+        <button onclick="changeScreenAdmin()">Log Out</button>
     </section>
     <script src="Index.js"></script>
     <script src="dom.js"></script>
