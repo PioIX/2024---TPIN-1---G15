@@ -1,3 +1,6 @@
+let usedWords = []
+let activeWord = ""
+
 async function llamadoAlBackend() {
     document.getElementById("table").innerHTML = ``
     //Llamo a un pedido Get del servidor
@@ -134,4 +137,42 @@ async function actualizarPalabra() {
         alert("Completar la información")
     }
     console.log(typeof document.getElementById("numero").value)
+}
+
+async function obtenerPalabras() {
+    //Llamo a un pedido Get del servidor
+    const response = await fetch('http://localhost:3000/obtenerPalabras',{
+        method:"POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    })
+    //Tengo que usar el await porque la respuesta del servidor es lenta
+    const result = await response.json()
+    let word = result[Math.floor(Math.random() * 10)].word
+    let esta = 'no'
+    if (usedWords != undefined || usedWords.length != 0) {
+        for (let i in usedWords){
+            if (word === usedWords[i]){
+                esta = 'si'
+            }
+            i++
+        }
+        while (esta === 'si'){
+            word = result[Math.floor(Math.random() * 10)].word
+            let i = 0
+            while (i < usedWords.length && word != usedWords[i]){
+                i++
+            }
+            if (usedWords[i] !== word){
+                esta = 'no'
+            }
+        }
+        console.log(typeof word)
+        activeWord = word
+        usedWords.push(word)
+    } else {
+        activeWord = word
+        usedWords.push(word)
+    }
 }

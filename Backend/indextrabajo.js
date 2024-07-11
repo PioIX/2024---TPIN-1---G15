@@ -18,19 +18,6 @@ app.get('/', function(req, res){
 	});
 });
 
-app.get('/saludo', function(req,res){
-    console.log(req.query); //Los pedidos get reciben los datos del req.query
-    res.send(`Hola ${req.query.nombre}, que tal?`);
-});
-
-app.get('/obtenerPilotos', async function(req,res){
-    console.log(req.query);
-	const respuesta = await MySql.realizarQuery('SELECT * FROM Pilotos;');
-	console.log({respuesta});
-	//Le devuelve al cliente la respuesta de la base de datos
-	res.send(respuesta);
-})
-
 app.post('/obtenerPalabras', async function(req, res) {
 	const result = await MySql.realizarQuery(`SELECT * FROM Words`);
 	res.send(result);
@@ -91,92 +78,14 @@ app.post('/registrarUsuario', async function(req, res) {
 	};
 });
 
-app.post('/insertarGP', async function(req, res) {
-	const name = req.body.nombre;
-	const date = req.body.fecha;
-	const circuit = req.body.pista;
-	const id = req.body.gp_ID;
-	let value = await MySql.realizarQuery(`SELECT gp_ID FROM GP WHERE gp_ID = ${id}`);
-	if (value === undefined || value.length === 0){
-		res.send({message:'GP agregado a la tabla'});
-		const result = MySql.realizarQuery(`INSERT INTO GP (gp_ID, nombre, fecha, pista)
-		VALUES (${id}, "${name}", "${date}", "${circuit}")`);
-	} else if (id === value[0].gp_ID) {
-		res.send({message:'El GP ya existe en la base de datos'});
-	};
-});
-
-app.post('/insertarPilotosXGP', async function(req, res) {
-	const pilotId = req.body.piloto_ID;
-	const gpId = req.body.gp_ID;
-	const position = req.body.posicion;
-	const time = req.body.tiempo;
-	const points = req.body.puntos;
-	let value = await MySql.realizarQuery(`SELECT piloto_ID, gp_ID FROM PilotosXGP WHERE piloto_ID = ${pilotId} AND gp_ID = ${gpId}`);
-	if (value === undefined || value.length === 0){
-		res.send({message:'Piloto por GP agregado a la tabla'});
-		const result = MySql.realizarQuery(`INSERT INTO PilotosXGP (piloto_ID, gp_ID, posicion, tiempo, puntos)
-		VALUES (${pilotId}, ${gpId}, ${position}, "${time}", ${points})`);
-	} else if (pilotId === value[0].piloto_ID && gpId === value[0].gp_ID){
-		res.send({message:'El Piloto por GP ya existe en la tabla'});
-	};
-});
-
-app.put('/actualizarPiloto', async function(req, res){
-	const pilotId = req.body.piloto_ID;
-	const number = req.body.numero;
-	const result = await MySql.realizarQuery(`UPDATE Pilotos SET numero = "${number}" WHERE piloto_ID = ${pilotId}`);
-	res.send({message:'Piloto actualizado'});
-})
-
-app.put('/actualizarGP', async function(req, res){
-	const gpId = req.body.piloto_ID;
-	const date = req.body.fecha;
-	const result = await MySql.realizarQuery(`UPDATE Pilotos SET fecha = ${date} WHERE piloto_ID = ${gpId}`);
-	res.send({message:'GP actualizado'});
-})
-
-app.put('/actualizarPilotosXGP', async function(req, res){
-	const pilotId = req.body.piloto_ID;
-	const gpId = req.body.gp_ID;
-	const points = req.body.puntos;
-	const result = await MySql.realizarQuery(`UPDATE PilotosXGP SET puntos = ${points} WHERE piloto_ID = ${pilotId} AND gp_ID = ${gpId}`);
-	res.send({message:'Piloto por GP actualizado'});
-})
-
-app.delete('/borrarPiloto', async function(req, res){
-	const pilotId = req.body.piloto_ID;
-	const result = await MySql.realizarQuery(`DELETE FROM Pilotos WHERE piloto_ID = ${pilotId}`);
-	res.send({message:'Piloto borrado'});
-})
-
-app.delete('/borrarGP', async function(req, res){
-	const gpId = req.body.gp_ID;
-	const result = await MySql.realizarQuery(`DELETE FROM GP WHERE gp_ID = ${gpId}`);
-	res.send({message:'GP borrado'});
-})
-
-app.delete('/borrarPilotosXGP', async function(req, res){
-	const pilotId = req.body.piloto_ID;
-	const gpId = req.body.gp_ID;
-	const result = await MySql.realizarQuery(`DELETE FROM PilotosXGP WHERE piloto_ID = ${pilotId} AND gp_ID = ${gpId}`);
-	res.send({message:'Piloto borrado'});
-})
-
 app.listen(port, function(){
 	console.log(`Server running in http://localhost:${port}`);
 	console.log('Defined routes:');
 	console.log('[GET] http://localhost:3000/');
-	console.log('[GET] http://localhost:3000/obtenerPilotos');
-	console.log('[GET] http://localhost:3000/obtenerPiloto');
-	console.log('[GET] http://localhost:3000/obtenerGPS');
-	console.log('[GET] http://localhost:3000/obtenerGP');
-	console.log('[GET] http://localhost:3000/obtenerPilotoXGPS');
-	console.log('[GET] http://localhost:3000/obtenerPilotoXGP');
-	console.log('[POST] http://localhost:3000/insertarPiloto');
-	console.log('[POST] http://localhost:3000/insertarGP');
-	console.log('[POST] http://localhost:3000/insertarPilotosXGP');
-	console.log('[DELETE] http://localhost:3000/borrarPiloto');
-	console.log('[DELETE] http://localhost:3000/borrarGP');
-	console.log('[DELETE] http://localhost:3000/borrarPilotosXGP');
+	console.log('[GET] http://localhost:3000/obtenerPalabras');
+	console.log('[GET] http://localhost:3000/agregarPalabra');
+	console.log('[GET] http://localhost:3000/borrarPalabra');
+	console.log('[GET] http://localhost:3000/actualizarPalabra');
+	console.log('[GET] http://localhost:3000/obtenerUsuario');
+	console.log('[GET] http://localhost:3000/registrarUsuario');
 });
