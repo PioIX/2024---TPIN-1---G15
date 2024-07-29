@@ -1,5 +1,6 @@
 let usedWords = []
 let activeWord = ""
+let dictionary = []
 
 async function llamadoAlBackend() {
     document.getElementById("table").innerHTML = ``
@@ -145,7 +146,6 @@ async function obtenerPalabras() {
                 esta = 'no'
             }
         }
-        console.log(typeof word)
         activeWord = word
         usedWords.push(word)
     } else {
@@ -154,24 +154,17 @@ async function obtenerPalabras() {
     }
 }
 
-async function isWordValid(word) {
+function isWordValid(word) {
     if (word != ""){
         if (word.length === 5){
-            const response = await fetch('http://localhost:3000/obtenerPalabras',{
-                method:"POST",
-                headers: {
-                    "Content-Type": "application/json",
-                  },
-                body:JSON.stringify(data)
-            })
-            const result = await response.json()
-            for (let i in )
-            if(result.value === 1){
+            word = word.toUpperCase()
+            let i = 0
+            while (i < dictionary.length && dictionary[i] != word){
+                i++
+            }
+            if(dictionary[i] == word){
                 return true
-            } else if(result.value === -1){
-                return false
             } else {
-                alert('Hubo un error en el momento de obtener la palabra')
                 return false
             }
         } else {
@@ -181,5 +174,19 @@ async function isWordValid(word) {
     } else {
         alert("Completar la información")
         return false
+    }
+}
+
+
+async function agregarDiccionario(){
+    const response = await fetch('http://localhost:3000/obtenerPalabras',{
+        method:"POST",
+        headers: {
+            "Content-Type": "application/json",
+          }
+    })
+    const result = await response.json()
+    for (x in result){
+        dictionary.push(result[x].word)
     }
 }
