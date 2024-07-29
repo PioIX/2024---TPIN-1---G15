@@ -81,29 +81,6 @@ async function deleteWords(){
     }
 }
 
-async function updatePiloto(){
-    if (document.getElementById("id").value != "" && document.getElementById("numero").value != ""){
-        const data = {
-            numero: document.getElementById("numero").value,
-            piloto_ID : document.getElementById("id").value
-        }
-    
-        //Envio un pedido POST con un JSON en el body
-        const response = await fetch('http://localhost:3000/actualizarPiloto',{
-            method:"PUT",
-            headers: {
-                "Content-Type": "application/json",
-              },
-            body:JSON.stringify(data)
-        })
-        const result = await response.json()
-        alert(result.message)
-        llamadoAlBackend()
-    } else {
-        alert("Completar la información")
-    }
-}
-
 async function actualizarPalabra() {
     let updateWord = document.getElementById("palabraActulizada").value
     let wordId = document.getElementById("idPalabra").value
@@ -174,5 +151,35 @@ async function obtenerPalabras() {
     } else {
         activeWord = word
         usedWords.push(word)
+    }
+}
+
+async function isWordValid(word) {
+    if (word != ""){
+        if (word.length === 5){
+            const response = await fetch('http://localhost:3000/obtenerPalabras',{
+                method:"POST",
+                headers: {
+                    "Content-Type": "application/json",
+                  },
+                body:JSON.stringify(data)
+            })
+            const result = await response.json()
+            for (let i in )
+            if(result.value === 1){
+                return true
+            } else if(result.value === -1){
+                return false
+            } else {
+                alert('Hubo un error en el momento de obtener la palabra')
+                return false
+            }
+        } else {
+            alert('La palabra debe tener solo 5 letras')
+            return false
+        }
+    } else {
+        alert("Completar la información")
+        return false
     }
 }

@@ -23,6 +23,16 @@ app.post('/obtenerPalabras', async function(req, res) {
 	res.send(result);
 });
 
+app.post('/obtenerPalabra', async function(req, res) {
+	const word = req.body.word;
+	const result = await MySql.realizarQuery(`SELECT * FROM Words WHERE word = "${word}"`);
+	if (result === undefined || result.length === 0){
+		res.send({value: -1});
+	} else if (word == result[0].word){
+		res.send({value: 1});
+	}
+});
+
 app.put('/agregarPalabra', async function(req, res) {
 	const word = req.body.word;
 	let value = await MySql.realizarQuery(`SELECT * FROM Words WHERE word = "${word}"`);

@@ -22,6 +22,8 @@ async function login() {
                 changeScreenAdmin()
             } else {
                 changeScreen()
+                registerKeyboardEvents();
+                obtenerPalabras();
             }
             document.getElementById("loginusername").value = ""
             document.getElementById("loginpassword").value = ""
@@ -103,7 +105,7 @@ function dibujarGrid(container){
     container.appendChild(grid)
 }
 
-function registerKeybordEvents(){
+function registerKeyboardEvents(){
     document.body.onkeydown = (e) => {
         const key = e.key;
         if (key === 'Enter'){
@@ -135,82 +137,56 @@ function getCurrentWord(){
 function inicio(){
     const game = document.getElementById('game');
     dibujarGrid(game)
-    registerKeybordEvents();
 }
 
 inicio()
 
 function revealWord(guess) {
-    const row = state.currentRow;
-    const animation_duration = 500; // ms
+    const row = estado.currentRow;
+    const animation_duration = 500;
   
-    for (let i = 0; i < 5; i++) {
+    for (let i of guess) {
       const box = document.getElementById(`box${row}${i}`);
       const letter = box.textContent;
-      const numOfOccurrencesSecret = getNumOfOccurrencesInWord(
-        state.secret,
-        letter
-      );
-      const numOfOccurrencesGuess = getNumOfOccurrencesInWord(guess, letter);
-      const letterPosition = getPositionOfOccurrence(guess, letter, i);
   
       setTimeout(() => {
-        if (
-          numOfOccurrencesGuess > numOfOccurrencesSecret &&
-          letterPosition > numOfOccurrencesSecret
-        ) {
-          box.classList.add('empty');
-        } else {
-          if (letter === state.secret[i]) {
+        if (letter === i) {
             box.classList.add('right');
-          } else if (state.secret.includes(letter)) {
+        } else if (activeWord.includes(letter)) {
             box.classList.add('wrong');
-          } else {
+        } else {
             box.classList.add('empty');
-          }
         }
-      }, ((i + 1) * animation_duration) / 2);
+      }, ((i + 1) * animation_duration) / 2);   
   
       box.classList.add('animated');
       box.style.animationDelay = `${(i * animation_duration) / 2}ms`;
     }
   
-    const isWinner = state.secret === guess;
-    const isGameOver = state.currentRow === 5;
+    const isWinner = activeWord === guess;
+    const isGameOver = estado.currentRow === 5;
   
     setTimeout(() => {
       if (isWinner) {
         alert('Felicidades!');
       } else if (isGameOver) {
-        alert(`Mejor suerte para la próxima! La palabra era ${state.secret}.`);
+        alert(`Mejor suerte para la próxima! La palabra era ${activeWord}.`);
       }
     }, 3 * animation_duration);
 }
 
-revealWord(guess)
-
 function isLetter(key) {
     return key.length === 1 && key.match(/[a-z]/i);
 }
-
   
 function addLetter(letter) {
-    if (state.currentCol === 5) return;
-    state.grid[state.currentRow][state.currentCol] = letter;
-    state.currentCol++;
+    if (estado.currentCol === 5) return;
+    estado.grid[estado.currentRow][estado.currentCol] = letter;
+    estado.currentCol++;
 }
   
 function removeLetter() {
-    if (state.currentCol === 0) return;
-    state.grid[state.currentRow][state.currentCol - 1] = '';
-    state.currentCol--;
+    if (estado.currentCol === 0) return;
+    estado.grid[estado.currentRow][estado.currentCol - 1] = '';
+    estado.currentCol--;
 }
-  
-function startup() {
-    const game = document.getElementById('game');
-    drawGrid(game);
-  
-    registerKeyboardEvents();
-}
-  
-startup();
