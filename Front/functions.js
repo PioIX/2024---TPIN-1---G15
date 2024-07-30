@@ -142,6 +142,7 @@ function inicio(){
     const game = document.getElementById('game');
     dibujarGrid(game)
     obtenerPalabras();
+    puntosTotales = 0;
     estado.secret = activeWord;
     estado.grid = Array(6)
             .fill()
@@ -187,7 +188,7 @@ function revealWord(guess) {
         puntosTotales += 10
       } else if (isGameOver) {
         alert(`Mejor suerte para la próxima! La palabra era ${activeWord}.`);
-        
+        changeWinner()
       }
     }, 3 * animation_duration);
 }
