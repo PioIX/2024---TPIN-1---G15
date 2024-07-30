@@ -39,6 +39,17 @@ app.post('/obtenerPalabra', async function(req, res) {
 });
 
 app.put('/agregarPalabra', async function(req, res) {
+	const points = req.body.points;
+	const userid = req.body.userid;
+	let value = await MySql.realizarQuery(`SELECT * FROM High_Scores`);
+	if (points > 0) {
+		const result = MySql.realizarQuery(`INSERT INTO High_Scores (userid, points)
+		VALUES (${userid}, ${points});`);
+		res.send({message: 'Puntaje alto agregado', value: 1});
+	}
+});
+
+app.put('/agregarPalabra', async function(req, res) {
 	const word = req.body.word;
 	let value = await MySql.realizarQuery(`SELECT * FROM Words WHERE word = "${word}"`);
 	if (value === undefined || value.length === 0) {
@@ -76,7 +87,7 @@ app.post('/obtenerUsuario', async function(req, res) {
 	if (value === undefined || value.length === 0){
 		res.send({message: "El usuario no existe o la contraseña es incorrecta", value: -1})
 	} else if (name == value[0].username && password == value[0].password){
-		res.send({message: 'Usuario existente', value: 1});
+		res.send({message: 'Usuario existente', value: 1, userid: value[0].userid});
 	} 
 });
 

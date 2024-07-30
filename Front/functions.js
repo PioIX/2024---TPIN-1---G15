@@ -1,5 +1,8 @@
 let puntosTotales = 0
+let currentUserID = 0
+let puntaje = false
 
+//MARK: Login
 async function login() {
     let username = document.getElementById("loginusername").value
     let password = document.getElementById("loginpassword").value
@@ -26,6 +29,7 @@ async function login() {
                 changeScreen()
                 registerKeyboardEvents();
                 agregarDiccionario();
+                currentUserID = result.userid
             }
             document.getElementById("loginusername").value = ""
             document.getElementById("loginpassword").value = ""
@@ -70,6 +74,7 @@ async function register() {
     }
 }
 
+//MARK: Juego
 const estado =  {
     secret: activeWord,
     grid: Array(6)
@@ -142,7 +147,10 @@ function inicio(){
     const game = document.getElementById('game');
     dibujarGrid(game)
     obtenerPalabras();
-    puntosTotales = 0;
+    if (puntaje === true){
+        changeWinner();
+        puntaje = false
+    }
     estado.secret = activeWord;
     estado.grid = Array(6)
             .fill()
@@ -189,6 +197,11 @@ function revealWord(guess) {
       } else if (isGameOver) {
         alert(`Mejor suerte para la próxima! La palabra era ${activeWord}.`);
         changeWinner()
+        document.getElementById("ppuntos").innerHTML += puntosTotales
+        puntaje = true
+        agregarHighScore(puntosTotales, currentUserID)
+        puntosTotales = 0
+        obtenerPuntajes()
       }
     }, 3 * animation_duration);
 }

@@ -114,8 +114,13 @@ input {
     height: 600px;
 }
 
-#np {
-    margin: 65% 0 0 0;
+#np{
+    margin: 0 41% 20px 41%;
+    width: 200px;
+}
+
+#npp {
+    margin: 55% 0 0 0;
     width: 200px;
 }
 

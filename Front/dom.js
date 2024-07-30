@@ -22,3 +22,15 @@ function changeScreenAdmin(){
         adminSec.style.display = "none"
     }
 }
+
+function changeWinner(){
+    let tablaPuntos = document.getElementById("pointsSec");
+    let gameSec = document.getElementById("gameSec");
+    if (tablaPuntos.style.display !== "none"){
+        tablaPuntos.style.display = "none"
+        gameSec.style.display = ""
+    } else {
+        tablaPuntos.style.display = ""
+        gameSec.style.display = "none"
+    }
+}

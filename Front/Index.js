@@ -127,7 +127,7 @@ async function obtenerPalabras() {
     })
     //Tengo que usar el await porque la respuesta del servidor es lenta
     const result = await response.json()
-    let word = result[Math.floor(Math.random() * 10)].word
+    let word = result[Math.floor(Math.random() * 86)].word
     let esta = 'no'
     if (usedWords != undefined || usedWords.length != 0) {
         for (let i in usedWords){
@@ -137,7 +137,7 @@ async function obtenerPalabras() {
             i++
         }
         while (esta === 'si'){
-            word = result[Math.floor(Math.random() * 10)].word
+            word = result[Math.floor(Math.random() * 86)].word
             let i = 0
             while (i < usedWords.length && word != usedWords[i]){
                 i++
@@ -232,5 +232,4 @@ async function agregarHighScore(puntos, userid) {
         body:JSON.stringify(data)
     })
     const result = await response.json()
-    alert(result.message)
 }
