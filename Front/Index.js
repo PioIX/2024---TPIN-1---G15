@@ -190,3 +190,47 @@ async function agregarDiccionario(){
         dictionary.push(result[x].word)
     }
 }
+
+async function obtenerPuntajes() {
+    document.getElementById("tablePuntos").innerHTML = ``
+    //Llamo a un pedido Get del servidor
+    const response = await fetch('http://localhost:3000/obtenerPuntajes',{
+        method:"POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    })
+    //Tengo que usar el await porque la respuesta del servidor es lenta
+    const result = await response.json()
+
+    document.getElementById("tablePuntos").innerHTML += `
+    <tr>
+        <th>Username</th>
+        <th>Puntos</th>
+    </tr>`
+
+    for (i in result){
+        document.getElementById("tablePuntos").innerHTML += `
+        <tr>
+            <td>${result[i].username}</td>
+            <td>${result[i].points}</td>
+        </tr>
+        `
+    }
+}
+
+async function agregarHighScore(puntos, userid) {
+    const data = {
+        points : puntos,
+        userid: userid
+    }
+    const response = await fetch('http://localhost:3000/agregarPalabra',{
+        method:"PUT",
+        headers: {
+            "Content-Type": "application/json",
+            },
+        body:JSON.stringify(data)
+    })
+    const result = await response.json()
+    alert(result.message)
+}

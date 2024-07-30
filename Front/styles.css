@@ -114,6 +114,33 @@ input {
     height: 600px;
 }
 
+#np {
+    margin: 65% 0 0 0;
+    width: 200px;
+}
+
+#cajaPuntos {
+    height: 600px;
+    width: 500px;
+    background-color: #C3C3C3;
+    margin: 50px 26% 0 26%;
+    text-align: center;
+    padding: 20px;
+}
+
+#cajaPuntos h3{
+    font-weight: bold;
+    font-size: 26px;
+}
+
+#tablePuntos{
+    border: 2px solid black;
+    width: 70%;
+    border-collapse: collapse;
+    background: white;
+    margin: 70px auto 0 auto;
+}
+
 :root {
     --default: #121213;
     --empty: #3a3a3c;

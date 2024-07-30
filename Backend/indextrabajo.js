@@ -23,6 +23,11 @@ app.post('/obtenerPalabras', async function(req, res) {
 	res.send(result);
 });
 
+app.post('/obtenerPuntajes', async function(req, res) {
+	const result = await MySql.realizarQuery(`SELECT username, points FROM High_Scores INNER JOIN Users ON High_Scores.userid = Users.userid ORDER BY points DESC LIMIT 3;`);
+	res.send(result);
+});
+
 app.post('/obtenerPalabra', async function(req, res) {
 	const word = req.body.word;
 	const result = await MySql.realizarQuery(`SELECT * FROM Words WHERE word = "${word}"`);

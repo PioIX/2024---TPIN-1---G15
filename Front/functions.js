@@ -1,3 +1,5 @@
+let puntosTotales = 0
+
 async function login() {
     let username = document.getElementById("loginusername").value
     let password = document.getElementById("loginpassword").value
@@ -182,8 +184,10 @@ function revealWord(guess) {
         let nuevaPalabra = document.getElementById("np")
         nuevaPalabra.style.display = ""
         alert('Felicidades!');
+        puntosTotales += 10
       } else if (isGameOver) {
         alert(`Mejor suerte para la próxima! La palabra era ${activeWord}.`);
+        
       }
     }, 3 * animation_duration);
 }
